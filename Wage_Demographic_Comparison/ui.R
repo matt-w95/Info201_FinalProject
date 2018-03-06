@@ -7,25 +7,30 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
+library("shiny")
+library("dplyr")
+library("ggplot2")
+
+seattle_data <- 
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Wage Gap in Seattle based on Sex"),
   
-  # Sidebar with a slider input for number of bins 
+  # Pick job Title
   sidebarLayout(
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
+      radioButtons("compare", label = h3("Compare Wage By"), choices = list("All Jobs" = 1, "Two different Jobs" = 2), selected = 1), br(),
+      selectInput('catagory1', 'Compare By', colnames(seattle_data[,2:11]), selected = "Female.Avg.Hrly.Rate"),
+      selectInput('catagory2', 'And', colnames(seattle_data[,2:11]), selected = "No..Female.Empl"), 
+      selectInput('job1', 'Pick A Job', seattle_data[,1], selected = "Accountant"),
+      selectInput('job2', 'Pick A Job', seattle_data[,1], selected = "Act Exec"),
+      hr(),
+      helpText(paste0("Note: If the graph is negative 1, this means we do not have data on that job"))
     ),
-    
-    # Show a plot of the generated distribution
+      # Show a plot of the generated distribution
     mainPanel(
        plotOutput("distPlot")
     )
