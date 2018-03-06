@@ -7,16 +7,16 @@
 #    http://shiny.rstudio.com/
 #
 
-library("shiny")
-library("dplyr")
-library("ggplot2")
+library(shiny)
+library(dplyr)
+library(ggplot2)
 
-setwd("C:/Users/Jimmy/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/")
-seattle_data <- read.csv(file='C:/Users/Jimmy/Desktop/info201/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv', sep=",", header=TRUE)
+setwd("~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/")
+seattle_data <- read.csv(file='data/City_of_Seattle_WageGender.csv', sep=",", header=TRUE)
 seattle_data[is.na(seattle_data)] <- -1
 
 #USA data Manipulation
-usa_data <- read.csv(file='C:/Users/Jimmy/Desktop/info201/Info201_FinalProject/Wage_Demographic_Comparison/data/United_States_WageGender.csv', sep=",", header=TRUE)
+usa_data <- read.csv(file='data/United_States_WageGender.csv', sep=",", header=TRUE)
 usa_data <- usa_data[usa_data$year == '2015',]
 usa_data <- usa_data[ -c(1:3,5,7,9, 11) ]
 usa_male <- usa_data[usa_data$sex_name == 'Male',]

@@ -7,9 +7,9 @@
 #    http://shiny.rstudio.com/
 #
 
-library("shiny")
-library("dplyr")
-library("ggplot2")
+library(shiny)
+library(dplyr)
+library(ggplot2)
 
 seattle_data <- 
 
