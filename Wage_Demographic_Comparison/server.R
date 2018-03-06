@@ -10,6 +10,7 @@
 library("shiny")
 library("dplyr")
 library("ggplot2")
+library("ggpubr")
 
 setwd("C:/Users/Jimmy/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/")
 seattle_data <- read.csv(file='C:/Users/Jimmy/Desktop/info201/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv', sep=",", header=TRUE)
@@ -46,18 +47,25 @@ shinyServer(function(input, output) {
       #}
       
       if(input$compare == 1){
-        ratio <- ggplot(usa_data, aes(x=usa_data$female_num_ppl , y=usa_data$male_num_ppl)) + geom_point() + xlab("# of Female Workers") + ylab("# of Male Workers") + ggtitle("Ratios of Male to Female Workers")
-        avg_wage <- ggplot(usa_data, aes(x=usa_data$female_avg_wage_ft, y=usa_data$female_num_ppl))+ geom_point()+ xlab("Wage of Female Workers") + ylab("Wage of Male Workers") + ggtitle("Ratios of Male to Female Wages")
+        ratio <- ggplot(usa_data, aes(x=usa_data$female_num_ppl , y=usa_data$male_num_ppl)) + geom_point() + 
+          xlab("# of Female Workers") + ylab("# of Male Workers") + ggtitle("Ratios of Male to Female Workers (USA)") +
+          xlim(0, 3500000) + ylim(0,3500000)
+        avg_wage <- ggplot(usa_data, aes(x=usa_data$female_avg_wage_ft, y=usa_data$female_num_ppl))+ geom_point()+ 
+          xlab("Wage of Female Workers") + ylab("Wage of Male Workers") + ggtitle("Ratios of Male to Female Wages (USA)")
       }else{
         xaxis <-c("Female","Male")
         yratio <-c(usa_data[which(usa_data == input$job1),2], usa_data[which(usa_data == input$job1),4])
         ratio_temp = data.frame(sex=xaxis,workers=yratio)
-        ratio <- ggplot(ratio_temp, aes(x=sex, y=workers)) + geom_bar(stat = "identity") 
-        ywage <-c(usa_data[which(usa_data == input$job1),3], usa_data[which(usa_data == input$job1),5])
+        usa_ratio <- ggplot(ratio_temp, aes(x=sex, y=workers, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
+          theme(legend.position="none") + geom_text(aes(label=workers), vjust=1.6, color="white", size=3.5) +
+          ylab("# Workers") + ggtitle("Ratios of Male to Female Workers (USA)") 
+        ywage <-c(usa_data[which(usa_data == input$job1),3], usa_data[which(usa_data == input$job1),5]) 
         wage_temp= data.frame(sex=xaxis,Wages=ywage)
-        avg_wage <- ggplot(wage_temp, aes(x=sex, y=Wages)) + geom_bar(stat = "identity")  
+        usa_avg_wage <- ggplot(wage_temp, aes(x=sex, y=Wages, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
+          theme(legend.position="none" ) + geom_text(aes(label=Wages), vjust=1.6, color="white", size=3.5) +
+          ylab("Wage of Workers") + ggtitle("Ratios of Male to Female Wages (USA)")
       }
-      ggpubr::ggarrange(ratio, avg_wage)
+      ggarrange(usa_ratio, usa_avg_wage)
     })
     
   })

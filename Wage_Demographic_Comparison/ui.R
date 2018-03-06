@@ -26,7 +26,7 @@ shinyUI(fluidPage(
       selectInput('catagory', 'Compare By', c("Wage","Ratio of Men and Women"), selected = "Wage"),
       selectInput('job1', 'Pick A Job', usa_data[,1], selected = "Accountant"),
       hr(),
-      helpText(paste0("Note: If the graph is negative 1, this means we do not have data on that job"))
+      helpText(paste0("Note: The USA data is from 2015"))
     ),
     
     
