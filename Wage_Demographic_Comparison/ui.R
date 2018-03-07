@@ -1,7 +1,3 @@
-
-
-
-
 library(shiny)
 library(dplyr)
 library(ggplot2)
@@ -20,18 +16,18 @@ shinyUI(fluidPage(
     for both genders across America and in the city of Seattle. To see the code for our project, click ",
     tags$a(href = "https://github.com/matt-w95/Info201_FinalProject", "here.")),
   
-  # Pick job Title
+  # Side panels
   sidebarLayout(
     sidebarPanel(
       uiOutput("tabUi")
     ),
     
-      # Show a plot of the generated distribution
+    # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(id = "tab", type = "tabs",
                   tabPanel("America's Top 10", plotOutput("plot10USA")),
                   tabPanel("Seattle's Top 10", plotOutput("plot10Seattle")),
-                  tabPanel("General Trend VS Individual", plotOutput("plot2")))
+                  tabPanel("General Trend VS Individual", plotOutput("GeneralVSIndividual")))
     )
   )
 ))
