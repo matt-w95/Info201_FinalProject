@@ -41,9 +41,32 @@ shinyServer(function(input, output) {
   usa_female <- usa_female[ -c(2) ]
   usa_male <- usa_male[ -c(2) ]
   usa_data <- merge(usa_female,usa_male,by="soc_name")
+
+  usa_data$both_wage <- usa_data$male_avg_wage_ft - usa_data$female_avg_wage_ft
   
-  #Plots top ten jobs with greatest wage difference based on gender for seattle
+  #Top 10 USA dara
+  usa_withDiff <- mutate(usa_data, usa_Male_Female_diff = (usa_data$male_avg_wage_ft - usa_data$female_avg_wage_ft))
+  
+  usa_ordered_diff <- usa_withDiff[order(usa_withDiff$usa_Male_Female_diff),]
+  
+  usa_wage_male <- usa_ordered_diff[(nrow(usa_withDiff) - 9) : nrow(usa_withDiff),]
+  usa_wage_female <- usa_ordered_diff[0:10,]
+  usa_wage_female <- mutate(usa_wage_female, diff = abs(usa_wage_female$usa_Male_Female_diff))
+  
+  usa_male_sub <-
+    usa_wage_male %>%
+    select(soc_name, female_avg_wage_ft, male_avg_wage_ft)
+  
+  usa_female_sub <-
+    usa_wage_female %>%
+    select(soc_name, female_avg_wage_ft, male_avg_wage_ft)
+  
+  usa_male_sub <- melt(usa_male_sub, id=c("soc_name"))
+  usa_female_sub <- melt(usa_female_sub, id=c("soc_name"))
+  
+  #Plots Graphs
   output$plot1 <- renderPlot({
+    #Plots top ten jobs with greatest wage difference based on gender for seattle
     male_p <- ggplot(male_sub) + geom_bar(aes(x = Jobtitle, y = value, fill= variable), stat = "identity", position = "dodge", width = 0.7)
     male_p <- male_p + scale_fill_manual("Result", values = c("deepskyblue1", "tan2")) +coord_flip()
     male_p <- male_p + labs(x="Jobs", y="Hourly Wage (Dollars)", title = "Seattle's top 10 jobs where men make more than women")
@@ -52,10 +75,19 @@ shinyServer(function(input, output) {
     female_p <- female_p + scale_fill_manual("Result", values = c("deepskyblue1", "tan2")) +coord_flip()
     female_p <- female_p + labs(x="Jobs", y="Hourly Wage (Dollars)", title = "Seattle's top 10 jobs where women make more than men")
     
+    #Plots top ten jobs with greatest wage difference based on gender for USA
+    usa_male_p <- ggplot(usa_male_sub) + geom_bar(aes(x = soc_name, y = value, fill= variable), stat = "identity", position = "dodge", width = 0.7) +
+      scale_fill_manual("Result", values = c("deepskyblue1", "tan2")) +coord_flip() +
+      labs(x="Jobs", y=" Wage (Dollars)", title = "USA's top 10 jobs where men make more than women")
+    
+    usa_female_p <- ggplot(usa_female_sub) + geom_bar(aes(x = soc_name, y = value, fill= variable), stat = "identity", position = "dodge", width = 0.7) + 
+      scale_fill_manual("Result", values = c("deepskyblue1", "tan2")) +coord_flip() + 
+      labs(x="Jobs", y="Wage (Dollars)", title = "USA's top 10 jobs where women make more than men")
+    
     if(input$choose_gender_best_city == "Female"){
-      female_p
+      ggarrange(female_p, usa_female_p)
     } else {
-      male_p
+      ggarrange(male_p,usa_male_p)
     }
   })
   
@@ -83,4 +115,3 @@ shinyServer(function(input, output) {
     ggarrange(usa_ratio, usa_avg_wage)
     })
 })
-
