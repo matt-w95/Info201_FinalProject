@@ -6,8 +6,6 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 
-seattle_data <- 
-
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
@@ -26,13 +24,13 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       uiOutput("tabUi")
-      
     ),
     
       # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(id = "tab", type = "tabs",
-                  tabPanel("Top 10", plotOutput("plot1")),
+                  tabPanel("America's Top 10", plotOutput("plot10USA")),
+                  tabPanel("Seattle's Top 10", plotOutput("plot10Seattle")),
                   tabPanel("General Trend VS Individual", plotOutput("plot2")))
     )
   )
