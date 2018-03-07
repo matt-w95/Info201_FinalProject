@@ -20,7 +20,6 @@ shinyUI(fluidPage(
       selectInput("choose_gender_best_city", "Choose the gender",
                   choices = c("Male", "Female")),
       
-      
       radioButtons("compare", label = h3("Compare By"), choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
       conditionalPanel(
         condition = "input.compare == 2",
@@ -33,8 +32,9 @@ shinyUI(fluidPage(
     
       # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("plot1"),
-       plotOutput("plot2")
+      tabsetPanel(type = "tabs",
+                  tabPanel("Top 10", plotOutput("plot1")),
+                  tabPanel("General Trend VS Individual", plotOutput("plot2")))
     )
   )
 ))

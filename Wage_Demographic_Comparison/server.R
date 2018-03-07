@@ -82,6 +82,5 @@ shinyServer(function(input, output) {
     }
     ggarrange(usa_ratio, usa_avg_wage)
     })
-  
 })
 
