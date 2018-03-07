@@ -12,12 +12,12 @@ library("dplyr")
 library("ggplot2")
 library("ggpubr")
 
-setwd("C:/Users/Jimmy/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/")
-seattle_data <- read.csv(file='C:/Users/Jimmy/Desktop/info201/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv', sep=",", header=TRUE)
+setwd("~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/")
+seattle_data <- read.csv(file='~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv', sep=",", header=TRUE)
 seattle_data[is.na(seattle_data)] <- -1
 
 #USA data Manipulation
-usa_data <- read.csv(file='C:/Users/Jimmy/Desktop/info201/Info201_FinalProject/Wage_Demographic_Comparison/data/United_States_WageGender.csv', sep=",", header=TRUE)
+usa_data <- read.csv(file='~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/data/United_States_WageGender.csv', sep=",", header=TRUE)
 usa_data <- usa_data[usa_data$year == '2015',]
 usa_data <- usa_data[ -c(1:3,5,7,9, 11) ]
 usa_male <- usa_data[usa_data$sex_name == 'Male',]
@@ -55,12 +55,12 @@ shinyServer(function(input, output) {
       }else{
         xaxis <-c("Female","Male")
         yratio <-c(usa_data[which(usa_data == input$job1),2], usa_data[which(usa_data == input$job1),4])
-        ratio_temp = data.frame(sex=xaxis,workers=yratio)
+        ratio_temp <- data.frame(sex=xaxis,workers=yratio)
         usa_ratio <- ggplot(ratio_temp, aes(x=sex, y=workers, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
           theme(legend.position="none") + geom_text(aes(label=workers), vjust=1.6, color="white", size=3.5) +
           ylab("# Workers") + ggtitle("Ratios of Male to Female Workers (USA)") 
         ywage <-c(usa_data[which(usa_data == input$job1),3], usa_data[which(usa_data == input$job1),5]) 
-        wage_temp= data.frame(sex=xaxis,Wages=ywage)
+        wage_temp <- data.frame(sex=xaxis,Wages=ywage)
         usa_avg_wage <- ggplot(wage_temp, aes(x=sex, y=Wages, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
           theme(legend.position="none" ) + geom_text(aes(label=Wages), vjust=1.6, color="white", size=3.5) +
           ylab("Wage of Workers") + ggtitle("Ratios of Male to Female Wages (USA)")
