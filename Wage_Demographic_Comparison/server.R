@@ -7,7 +7,7 @@ library("ggpubr")
 shinyServer(function(input, output) {
   
   #Seattle data filtering
-  Seattle_GenderWage <- read.csv("~/Info201_HWs/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv") 
+  Seattle_GenderWage <- read.csv("~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/data/City_of_Seattle_WageGender.csv") 
   
   Seattle_withDiff <- mutate(Seattle_GenderWage, Male_Female_diff = (Seattle_GenderWage$Male.Avg.Hrly.Rate - Seattle_GenderWage$Female.Avg.Hrly.Rate))
   Seattle_withDiff <- na.omit(Seattle_withDiff)
@@ -30,7 +30,7 @@ shinyServer(function(input, output) {
   female_sub <- melt(female_sub, id=c("Jobtitle"))
   
   #USA data Manipulation
-  usa_data <- read.csv(file='~/Info201_HWs/Info201_FinalProject/Wage_Demographic_Comparison/data/United_States_WageGender.csv', sep=",", header=TRUE)
+  usa_data <- read.csv(file='~/Desktop/INFO201/Info201_FinalProject/Wage_Demographic_Comparison/data/United_States_WageGender.csv', sep=",", header=TRUE)
   usa_data <- usa_data[usa_data$year == '2015',]
   usa_data <- usa_data[ -c(1:3,5,7,9, 11) ]
   usa_male <- usa_data[usa_data$sex_name == 'Male',]
