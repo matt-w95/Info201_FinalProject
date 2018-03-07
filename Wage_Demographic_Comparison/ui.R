@@ -1,11 +1,6 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
+
+
+
 
 library("shiny")
 library("dplyr")
@@ -22,13 +17,19 @@ shinyUI(fluidPage(
   # Pick job Title
   sidebarLayout(
     sidebarPanel(
-      helpText(paste0("Note: The USA data is from 2015")),
       selectInput("choose_gender_best_city", "Choose the gender",
-                  choices = c("Male", "Female"))
+                  choices = c("Male", "Female")),
+      
+      
+      radioButtons("compare", label = h3("Compare By"), choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
+      conditionalPanel(
+        condition = "input.compare == 2",
+        selectInput('job1', 'Pick A Job', usa_data[,4], selected = "Accountant")
+      ),
+      hr(),
+      helpText(paste("Note:","The USA data is from 2015", sep="\n"))
+      
     ),
-    
-    
-    
     
       # Show a plot of the generated distribution
     mainPanel(
