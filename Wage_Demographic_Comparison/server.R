@@ -1,8 +1,7 @@
-
-library(shiny)
-library(dplyr)
-library(ggplot2)
-library(ggpubr)
+library("shiny")
+library("dplyr")
+library("ggplot2")
+library("ggpubr")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -60,7 +59,6 @@ shinyServer(function(input, output) {
   })
   
   output$plot2 <- renderPlot({
-    
     if(input$compare == 1){
       usa_ratio <- ggplot(usa_data, aes(x=usa_data$female_num_ppl , y=usa_data$male_num_ppl)) + geom_point() + 
         xlab("# of Female Workers") + ylab("# of Male Workers") + ggtitle("Ratios of Male to Female Workers (USA)") +
@@ -71,18 +69,18 @@ shinyServer(function(input, output) {
     }else{
       xaxis <-c("Female","Male")
       yratio <-c(usa_data[which(usa_data == input$job1),2], usa_data[which(usa_data == input$job1),4])
-      ratio_temp = data.frame(sex=xaxis,workers=yratio)
-      
+      ratio_temp <- data.frame(sex=xaxis,workers=yratio)
       usa_ratio <- ggplot(ratio_temp, aes(x=sex, y=workers, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
         theme(legend.position="none") + geom_text(aes(label=workers), vjust=1.6, color="white", size=3.5) +
-        ylab("# Workers") + ggtitle("Ratios of Male to Female Workers (USA)")
-      
+        ylab("# Workers") + ggtitle("Ratios of Male to Female Workers (USA)") 
       ywage <-c(usa_data[which(usa_data == input$job1),3], usa_data[which(usa_data == input$job1),5]) 
-      wage_temp= data.frame(sex=xaxis,Wages=ywage)
+      wage_temp <- data.frame(sex=xaxis,Wages=ywage)
       usa_avg_wage <- ggplot(wage_temp, aes(x=sex, y=Wages, fill=c("blue","pink"))) + geom_bar(stat = "identity") +
         theme(legend.position="none" ) + geom_text(aes(label=Wages), vjust=1.6, color="white", size=3.5) +
         ylab("Wage of Workers") + ggtitle("Ratios of Male to Female Wages (USA)")
     }
     ggarrange(usa_ratio, usa_avg_wage)
-  })
+    })
+  
 })
+
