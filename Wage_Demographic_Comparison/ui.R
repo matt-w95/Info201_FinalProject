@@ -12,24 +12,29 @@ seattle_data <-
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Wage Gap in USA based on Sex"),
+  titlePanel("The Gender Gap between Seattle and United States"),
   
   # Pick job Title
   sidebarLayout(
     sidebarPanel(
+      selectInput("choose_gender_best_city", "Choose the gender",
+                  choices = c("Male", "Female")),
+      
+      
       radioButtons("compare", label = h3("Compare By"), choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
       conditionalPanel(
         condition = "input.compare == 2",
-        selectInput('job1', 'Pick A Job', usa_data[,1], selected = "Accountant")
+        selectInput('job1', 'Pick A Job', usa_data[,4], selected = "Accountant")
       ),
       hr(),
       helpText(paste("Note:","The USA data is from 2015", sep="\n"))
+      
     ),
-    
     
       # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("distPlot")
+       plotOutput("plot1"),
+       plotOutput("plot2")
     )
   )
 ))
