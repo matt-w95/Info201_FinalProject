@@ -24,7 +24,7 @@ shinyUI(fluidPage(
       radioButtons("compare", label = h3("Compare By"), choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
       conditionalPanel(
         condition = "input.compare == 2",
-        selectInput('job1', 'Pick A Job', usa_data[,4], selected = "Accountant")
+        selectInput('job1', 'Pick A Job', usa_data[,which(colnames(usa_data)== "soc_name" )], selected = "Accountant")
       ),
       hr(),
       helpText(paste("Note:","The USA data is from 2015", sep="\n"))
