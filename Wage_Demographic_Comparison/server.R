@@ -82,5 +82,19 @@ shinyServer(function(input, output) {
     }
     ggarrange(usa_ratio, usa_avg_wage)
     })
+  
+  output$tabUi <- renderUI({
+    if (input$tab == "Top 10") {
+      uiList <- list(selectInput("choose_gender_best_city", "Choose the gender", choices = c("Male", "Female")))
+    } else if (input$tab == "General Trend VS Individual") {
+      #radioButtons(inputId = "tempType", label = "Select type of temperture to change:", choices = list("Max" = "actual_max_temp", "Mean" = "actual_mean_temp", "Min" = "actual_min_temp"), inline = TRUE)
+      uiList <- list(radioButtons("compare", label = "Compare By", choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
+             conditionalPanel(
+               condition = "input.compare == 2",
+               selectInput('job1', 'Pick A Job', usa_data[,which(colnames(usa_data)== "soc_name" )], selected = "Accountant")
+             ))
+    }
+    return(uiList)
+  })
 })
 
