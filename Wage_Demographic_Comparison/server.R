@@ -167,9 +167,9 @@ shinyServer(function(input, output) {
     if (input$tab == "America's Top 10" | input$tab == "Seattle's Top 10") {
       sidePanel <- list(selectInput("choose_gender_best_city", "Choose the gender", choices = c("Male", "Female")))
     } else if (input$tab == "General Trend VS Individual") {
-      sidePanel <- list(radioButtons("compare", label = "Compare By", choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
-                        radioButtons("choose_area_general", label = "Choose area", choices = list("USA" = 3, "Seattle" = 4), selected = 3),
-             conditionalPanel(
+      sidePanel <- list(radioButtons("choose_area_general", label = "Choose area", choices = list("USA" = 3, "Seattle" = 4), selected = 3),
+                        radioButtons("compare", label = "Compare By", choices = list("All Jobs" = 1, "Specific Jobs" = 2), selected = 1),
+            conditionalPanel(
                condition = ("input.compare == 2 & input.choose_area_general == 3"),
                   selectInput('job1', 'Pick A Job', usa_data[,which(colnames(usa_data)== "soc_name" )], selected = "Accountant")
              ),
